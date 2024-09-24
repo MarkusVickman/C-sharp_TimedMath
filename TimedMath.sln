@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimedMath", "TimedMath\TimedMath.csproj", "{ACC7A9F5-C491-4C0D-92A2-CBB06351650F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ACC7A9F5-C491-4C0D-92A2-CBB06351650F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACC7A9F5-C491-4C0D-92A2-CBB06351650F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACC7A9F5-C491-4C0D-92A2-CBB06351650F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{ACC7A9F5-C491-4C0D-92A2-CBB06351650F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACC7A9F5-C491-4C0D-92A2-CBB06351650F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACC7A9F5-C491-4C0D-92A2-CBB06351650F}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B7E67F75-DB52-484E-A560-4601713BA9AC}
+	EndGlobalSection
+EndGlobal
