@@ -20,14 +20,14 @@
                 SemanticProperties.HeadingLevel="Level1" />
 
             <Label
-                Text="Welcome to &#10;.NET Multi-platform App UI"
+                Text="Welcome! Test your math skills"
                 Style="{StaticResource SubHeadline}"
-                SemanticProperties.HeadingLevel="Level2"
+                SemanticProperties.HeadingLevel="Level4"
                 SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
 
             <Button
                 x:Name="CounterBtn"
-                Text="Click me" 
+                Text="Start" 
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="OnCounterClicked"
                 HorizontalOptions="Fill" />
@@ -36,13 +36,32 @@
             
             <Label 
                 x:Name="question"
-                Text="T"
+                Text="Question"
                 Style="{StaticResource SubHeadline}"
                 SemanticProperties.HeadingLevel="Level2"
                 SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
-            
-            <CheckBox
-                />
+
+            <Entry x:Name="entry"
+            Placeholder="Enter answer"
+            TextChanged="OnEntryTextChanged"
+            Completed="OnEntryCompleted" 
+            WidthRequest="100"
+            HeightRequest="50"/>
+
+            <Button
+                x:Name="SkipBtn"
+                Text="Skip" 
+                SemanticProperties.Hint="Counts the number of times you click"
+                Clicked="OnSkipClicked"
+                HorizontalOptions="Center" />
+
+            <Line/>
+            <Line/>
+            <Label 
+                Text="Highscore"
+                Style="{StaticResource SubHeadline}"
+                SemanticProperties.HeadingLevel="Level2"
+                SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
         </VerticalStackLayout>
     </ScrollView>
 
