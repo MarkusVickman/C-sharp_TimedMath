@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TimedMath.MainPage"
-             Title="First page!">
+             x:Class="TimedMath.MainPage" 
+             Title="TIMED MATH">
 
-    <ScrollView>
+
+<ScrollView>
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
@@ -14,11 +15,13 @@
                 Aspect="AspectFit"
                 SemanticProperties.Description="dot net bot in a race car number eight" />
 
+            <!-- 
             <Label
                 Text="TIMED MATH"
                 Style="{StaticResource Headline}"
                 SemanticProperties.HeadingLevel="Level1" />
-
+-->
+            
             <Label
                 Text="Welcome! Test your math skills"
                 Style="{StaticResource SubHeadline}"
@@ -32,28 +35,48 @@
                 Clicked="OnCounterClicked"
                 HorizontalOptions="Fill" />
             
-            <Line/>
-            
             <Label 
                 x:Name="question"
-                Text="Question"
+                Text="Enter your name"
                 Style="{StaticResource SubHeadline}"
                 SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
+                SemanticProperties.Description="Welcome to dot net Multi platform App U I" 
+                IsVisible="False"/>
 
-            <Entry x:Name="entry"
+            <Entry 
+            x:Name="entry"
+            Keyboard="Numeric"
             Placeholder="Enter answer"
             TextChanged="OnEntryTextChanged"
             Completed="OnEntryCompleted" 
-            WidthRequest="100"
-            HeightRequest="50"/>
+            WidthRequest="110"
+            HeightRequest="50"
+            IsVisible="False"/>
 
             <Button
                 x:Name="SkipBtn"
                 Text="Skip" 
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="OnSkipClicked"
-                HorizontalOptions="Center" />
+                HorizontalOptions="Center" 
+                IsVisible="False"/>
+
+            <Entry 
+            x:Name="enterName"
+            Placeholder="Enter your name"
+            TextChanged="OnEntryTextChanged"
+            Completed="OnEntryCompleted" 
+            WidthRequest="130"
+            HeightRequest="50"
+            IsVisible="False"/>
+
+            <Button
+                x:Name="EnterNameBtn"
+                Text="Submit" 
+                SemanticProperties.Hint="Counts the number of times you click"
+                Clicked="OnSkipClicked"
+                HorizontalOptions="Center" 
+                IsVisible="False"/>
 
             <Line/>
             <Line/>
