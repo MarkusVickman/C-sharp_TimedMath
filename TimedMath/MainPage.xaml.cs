@@ -19,20 +19,6 @@ namespace TimedMath
     public partial class MainPage : ContentPage
     {
 
-      /*  public class Player
-        {
-
-            public string User { get; set; }
-            public string Post { get; set; }
-
-            //Konstruktorn som skapar gästinläggs-objekt
-            public Player(string user, string post)
-            {
-                User = user;
-                Post = post;
-            }
-        }*/
-
         public string answer;
         public int totalPoints;
 
@@ -44,14 +30,16 @@ namespace TimedMath
 
         public class Player
         {
-            public string User { get; set; }
+
             public int Score { get; set; }
+            public string User { get; set; }
+
 
             //Konstruktorn som skapar gästinläggs-objekt
-            public Player(string user, int score)
+            public Player(int score, string user)
             {
-                User = user;
                 Score = score;
+                User = user;
             }
         }
 
@@ -237,7 +225,7 @@ namespace TimedMath
             //annars skapas ett nytt object för inlägg med namn och meddelande med hjälp av Guest konstruktorn.
             else
             {*/
-                MainPage.Player player = new Player(user, totalPoints);
+                MainPage.Player player = new Player(totalPoints, user);
 
             //Objektet Json serializeras med hjälp av inställningarna i början av metoden.
             string player2 = JsonSerializer.Serialize(player);
@@ -246,9 +234,43 @@ namespace TimedMath
             //En rad skrivs in i filen där objektet nu har json-format och avslutas på en tom rad.
             File.AppendAllText(fileName, player2 + Environment.NewLine);
 
+            Entry enterName = (Entry)FindByName("enterName");
+
+            Button submitName = (Button)FindByName("EnterNameBtn");
+
+
+            enterName.IsVisible = false;
+
+            submitName.IsVisible = false;
+
+            SortHighScore();
+
             //}
 
         }
+        private void SortHighScore()
+        {
+
+            //variabel med namnet på filen för inlägg som sparas på samma plats som program.cs
+            string fileName = /*"highscore.json"*/@"c:\windows\Temp\highscore.json";
+
+
+            //En lista skapas med en sträng för varje rad i gästboksfilen. Det skrivs fortfarande som Json-format.
+            string[] linesFromFile = File.ReadAllLines(fileName);
+
+            Array.Sort(linesFromFile);
+
+            Array.Reverse(linesFromFile);
+
+            // Take the first 5 lines after sorting
+            string[] topFiveScores = linesFromFile.Take(5).ToArray();
+
+                File.WriteAllLines(fileName, topFiveScores);
+
+            LoadHighScore();
+
+        }
+
         /*
         public string RightAnswer(string answer, bool check)
         {
