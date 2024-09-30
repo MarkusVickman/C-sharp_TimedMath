@@ -74,13 +74,14 @@
                 x:Name="EnterNameBtn"
                 Text="Submit" 
                 SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnSkipClicked"
+                Clicked="SubmitAnswerClicked"
                 HorizontalOptions="Center" 
                 IsVisible="False"/>
 
             <Line/>
             <Line/>
             <Label 
+                x:Name="highScore"
                 Text="Highscore"
                 Style="{StaticResource SubHeadline}"
                 SemanticProperties.HeadingLevel="Level2"

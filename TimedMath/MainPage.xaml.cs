@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Unicode;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Controls.PlatformConfiguration;
+using Microsoft.Maui.Storage;
+
 //using Windows.ApplicationModel.Calls;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -56,6 +62,72 @@ namespace TimedMath
             Entry entry = new Entry { Placeholder = "Enter text" };
             entry.TextChanged += OnEntryTextChanged!;
             entry.Completed += OnEntryCompleted!;
+
+
+
+
+            //Metoden för programmets val körs
+            this.LoadHighScore();
+
+        }
+
+        private void LoadHighScore()
+        {
+
+            //variabel med namnet på filen för inlägg som sparas på samma plats som program.cs
+            string fileName = /*"highscore.json"*/@"c:\windows\Temp\highscore.json";
+            //Om filen inte redan finns så skapas en ny
+            if (!File.Exists(fileName))
+            {
+                File.Create(fileName).Dispose();
+            }
+
+            string jsonString = File.ReadAllText(fileName);
+
+            //Om filen inte är tom skrivs alla inlägg ut på skärmen
+            if (!string.IsNullOrWhiteSpace(jsonString))
+            {
+
+                //Används för att skriva ut ett index till varje inlägg (kanske en for-loop hade varit bättre men det här fungerar bra.)
+                int counter = 0;
+
+
+                Label highScore = (Label)FindByName("highScore");
+
+
+
+
+                StringBuilder highScoreString = new StringBuilder();
+
+                highScoreString.Append($"HighScore\n");
+
+                //Alla rader i filen skrivs ut en efter en
+                foreach (var line in File.ReadAllLines(fileName))
+                {
+                    //Check så att inga tomma rader tas med (har dock begränsat det i metoden för skriva nya inlägg)
+                    if (line.Length > 0)
+                    {
+                        //Varje rad deserializeras och objekt görs i Guest konstruktorn
+                        MainPage.Player player = JsonSerializer.Deserialize<Player>(line)!;
+
+
+                        counter++;
+
+
+                        //Index, namn och inlägget skrivs ut på skärmen
+
+
+                        highScoreString.Append($"{counter}. {player.User}: {player.Score}\n");
+
+                        //Räknar upp index
+
+                    }
+                }
+
+                highScore.Text = highScoreString.ToString();
+
+
+            }
 
         }
 
@@ -152,11 +224,29 @@ namespace TimedMath
         private void SubmitAnswerClicked(object sender, EventArgs e)
         {
 
-            Entry ansLabel = (Entry)FindByName("entry");
-            string inputAnswer = ansLabel.Text;
+            Entry userName = (Entry)FindByName("enterName");
+            string user = userName.Text;
 
-            // if (inputAnswer == ull ) {
+            
+            //Check för att se att inget av fälten är tomma. Om något är tomt skrivs ett felmeddelande ut och metoden körs om från början.
+           /* if (guestName.Length == 0 || guestPost.Length == 0)
+            {
+                Console.WriteLine("\r\nBåde gästnamn och inlägg måste skrivas!");
+                Guest.WritePost(fileName);
+            }
+            //annars skapas ett nytt object för inlägg med namn och meddelande med hjälp av Guest konstruktorn.
+            else
+            {*/
+                MainPage.Player player = new Player(user, totalPoints);
 
+            //Objektet Json serializeras med hjälp av inställningarna i början av metoden.
+            string player2 = JsonSerializer.Serialize(player);
+
+            string fileName = /*"highscore.json"*/@"c:\windows\Temp\highscore.json";
+            //En rad skrivs in i filen där objektet nu har json-format och avslutas på en tom rad.
+            File.AppendAllText(fileName, player2 + Environment.NewLine);
+
+            //}
 
         }
         /*
