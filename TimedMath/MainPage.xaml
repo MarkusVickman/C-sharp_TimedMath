@@ -2,7 +2,11 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TimedMath.MainPage" 
-             Title="TIMED MATH">
+             Title="TimedMath - Math speedtest"
+             Shell.NavBarIsVisible="false"
+             BackgroundColor="WhiteSmoke"
+             >
+               
 
 
 <ScrollView>
@@ -10,8 +14,9 @@
             Padding="30,0"
             Spacing="25">
             <Image
-                Source="dotnet_bot.png"
-                HeightRequest="185"
+                Margin="0,20,0,20"
+                Source="timed_math.png"
+                HeightRequest="250"
                 Aspect="AspectFit"
                 SemanticProperties.Description="dot net bot in a race car number eight" />
 
@@ -21,23 +26,76 @@
                 Style="{StaticResource Headline}"
                 SemanticProperties.HeadingLevel="Level1" />
 -->
-            
+            <!--
             <Label
                 Text="Welcome! Test your math skills"
                 Style="{StaticResource SubHeadline}"
                 SemanticProperties.HeadingLevel="Level4"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
+                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
+                TextColor="white"/> -->
 
+
+
+            <Label
+                Text="Calculation method" 
+                HorizontalOptions="Fill" 
+                HorizontalTextAlignment="Center" 
+                FontSize="Medium" TextColor="black" 
+                Margin="0,-20,0,0"
+                
+                />
+
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <Label Margin="0,0,0,0" Text="Multiplication table"  TextColor="black"/>
+                <Switch                   
+                    Margin="10, -10, -50, 0"
+                    Toggled="MultiplicationTableActive"/>
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout HorizontalOptions="Center" x:Name="checkBoxes">
+                
+                <Label Margin="0,0,0,0" Text="Plus +"  TextColor="black"/>
+                <CheckBox IsChecked="False" 
+                          Margin="0, -10, 5, 0"
+                          />
+
+<!--            </HorizontalStackLayout>
+            <HorizontalStackLayout HorizontalOptions="Center"> -->
+                <Label Margin="0,0,0,0" Text="Minus -"  TextColor="black"/>
+                <CheckBox IsChecked="False" 
+                          Margin="0, -10, 5, 0"
+                          />
+
+                <!--            </HorizontalStackLayout>
+            <HorizontalStackLayout HorizontalOptions="Center"> -->
+                <Label Margin="0,0,0,0" Text="Divided /"  TextColor="black"/>
+                <CheckBox IsChecked="False" 
+                          Margin="0, -10, 5, 0"
+                          />
+
+                <!--            </HorizontalStackLayout>
+            <HorizontalStackLayout HorizontalOptions="Center"> -->
+                <Label Margin="0,0,0,0" Text="Multiply *" TextColor="black"/>
+                <CheckBox IsChecked="False" 
+                          Margin="0, -10, 5, 0"
+                          />
+
+            </HorizontalStackLayout>
+                
+
+                
             <Button
-                x:Name="CounterBtn"
-                Text="Start" 
+                x:Name="StartBtn"
+                Text="Start"
+                FontSize="Micro"
                 SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
+                Clicked="OnStartClicked"
                 HorizontalOptions="Fill" />
             
             <Label 
                 x:Name="question"
                 Text="Enter your name"
+                TextColor="black"
                 Style="{StaticResource SubHeadline}"
                 SemanticProperties.HeadingLevel="Level2"
                 SemanticProperties.Description="Welcome to dot net Multi platform App U I" 
@@ -46,6 +104,7 @@
             <Entry 
             x:Name="entry"
             Keyboard="Numeric"
+            BackgroundColor="black"
             Placeholder="Enter answer"
             TextChanged="OnEntryTextChanged"
             Completed="OnEntryCompleted" 
@@ -59,12 +118,14 @@
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="OnSkipClicked"
                 HorizontalOptions="Center" 
+                FontSize="Micro"
                 IsVisible="False"/>
 
             <Entry 
             x:Name="enterName"
             Placeholder="Enter your name"
             TextChanged="OnEntryTextChanged"
+            BackgroundColor="White"
             Completed="OnEntryCompleted" 
             WidthRequest="130"
             HeightRequest="50"
@@ -73,6 +134,7 @@
             <Button
                 x:Name="EnterNameBtn"
                 Text="Submit" 
+                FontSize="Micro"
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="SubmitAnswerClicked"
                 HorizontalOptions="Center" 
@@ -83,8 +145,10 @@
             <Label 
                 x:Name="highScore"
                 Text="Highscore"
+                TextColor="black"
+                FontSize="Medium"
                 Style="{StaticResource SubHeadline}"
-                SemanticProperties.HeadingLevel="Level2"
+                SemanticProperties.HeadingLevel="Level4"
                 SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
         </VerticalStackLayout>
     </ScrollView>

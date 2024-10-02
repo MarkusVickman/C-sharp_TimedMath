@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Metrics;
 using System.Linq.Expressions;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -13,6 +14,7 @@ using Microsoft.Maui.Storage;
 
 //using Windows.ApplicationModel.Calls;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+//using static Android.Provider.Contacts;
 
 namespace TimedMath
 {
@@ -82,6 +84,7 @@ namespace TimedMath
 
                 Label highScore = (Label)FindByName("highScore");
 
+                highScore.Text = "";
 
 
 
@@ -142,7 +145,7 @@ namespace TimedMath
 
         public bool checkIfPressed = false;
 
-        public async void OnCounterClicked(object sender, EventArgs e)
+        public async void OnStartClicked(object sender, EventArgs e)
         {
 
             Button skipBtn = (Button)FindByName("SkipBtn");
@@ -167,7 +170,7 @@ namespace TimedMath
                 CancellationToken token = source.Token;
                 */
                 totalPoints = 0;
-                CounterBtn.Text = "Stopp";
+                StartBtn.Text = "Stopp";
                 checkIfPressed = true;
                 ChangeLabel();
                 await Task.Delay(120000/*, token*/);
@@ -176,7 +179,7 @@ namespace TimedMath
 
             // Player player1 = new Player("test", "guestPost");
 
-            CounterBtn.Text = "Start";
+            StartBtn.Text = "Start";
 
             //Task.
 
@@ -207,6 +210,29 @@ namespace TimedMath
 
         
         }
+
+
+
+        public void MultiplicationTableActive(object sender, EventArgs e)
+        {
+            /*CheckBox plus = (CheckBox)FindByName("plusCheckbox");
+            CheckBox minus = (CheckBox)FindByName("minusCheckbox");
+            CheckBox divided = (CheckBox)FindByName("dividedCheckbox");
+            CheckBox multiply = (CheckBox)FindByName("multiplyCheckbox");
+            */
+            HorizontalStackLayout checkBoxes = (HorizontalStackLayout)FindByName("checkBoxes");
+
+            if (checkBoxes.IsVisible == true)
+            {
+                checkBoxes.IsVisible = false;
+            }
+            else
+            {
+                checkBoxes.IsVisible = true;
+            }
+
+        }
+
 
 
         private void SubmitAnswerClicked(object sender, EventArgs e)
@@ -254,39 +280,55 @@ namespace TimedMath
             //variabel med namnet på filen för inlägg som sparas på samma plats som program.cs
             string fileName = /*"highscore.json"*/@"c:\windows\Temp\highscore.json";
 
+            //Används för att skriva ut ett index till varje inlägg (kanske en for-loop hade varit bättre men det här fungerar bra.)
 
-            //En lista skapas med en sträng för varje rad i gästboksfilen. Det skrivs fortfarande som Json-format.
-            string[] linesFromFile = File.ReadAllLines(fileName);
+            Player[] players = {};
 
-            Array.Sort(linesFromFile);
+            // Clear the array
+           /* Array.Clear(players, 0, players.Length);
+            Array.Resize(ref players, 0);
+           */
 
-            Array.Reverse(linesFromFile);
 
-            // Take the first 5 lines after sorting
-            string[] topFiveScores = linesFromFile.Take(5).ToArray();
+            foreach (var line in File.ReadAllLines(fileName))
+            {
+                //Check så att inga tomma rader tas med (har dock begränsat det i metoden för skriva nya inlägg)
+                if (line.Length > 0)
+                {
 
-                File.WriteAllLines(fileName, topFiveScores);
+                    // Resize the array
+                    Array.Resize(ref players, players.Length + 1);
+
+
+                    //Varje rad deserializeras och objekt görs i Guest konstruktorn
+                    MainPage.Player player = JsonSerializer.Deserialize<Player>(line)!;
+
+
+                    // Add the new element
+                    players[players.Length - 1] = player;
+
+                }
+            }
+
+            Array.Sort(players, (x, y) => x.Score.CompareTo(y.Score));
+            Array.Reverse(players);
+
+            File.WriteAllText(fileName, string.Empty);
+
+            Player[] toSavePlayers = new Player[5];
+            Array.Copy(players, toSavePlayers, 5);
+
+            foreach (var playerObject in toSavePlayers)
+            {
+                string player = JsonSerializer.Serialize(playerObject);
+
+                //En rad skrivs in i filen där objektet nu har json-format och avslutas på en tom rad.
+                File.AppendAllText(fileName, player + Environment.NewLine);
+            }
 
             LoadHighScore();
 
         }
-
-        /*
-        public string RightAnswer(string answer, bool check)
-        {
-            string rightAnswer;
-
-            if (!check)
-            {
-              rightAnswer = answer; ;
-
-            }
-
-            
-            return rightAnswer;
-        }*/
-
-
 
         public void ChangeLabel()
         {
