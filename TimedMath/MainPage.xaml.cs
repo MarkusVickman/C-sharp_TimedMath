@@ -200,6 +200,8 @@ namespace TimedMath
 
                     checkIfPressed = false;
 
+                    mathCoices.IsVisible = true;
+
                 }
                 else
                 {
