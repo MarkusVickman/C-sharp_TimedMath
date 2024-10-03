@@ -29,7 +29,6 @@ namespace TimedMath
 
         int count = 0;
 
-
         public class Player
         {
 
@@ -52,9 +51,6 @@ namespace TimedMath
             Entry entry = new Entry { Placeholder = "Enter text" };
             entry.TextChanged += OnEntryTextChanged!;
             entry.Completed += OnEntryCompleted!;
-
-
-
 
             //Metoden för programmets val körs
             this.LoadHighScore();
@@ -140,9 +136,6 @@ namespace TimedMath
             // Handle the completed event here
         }
 
-        //private static System.Timers.Timer aTimer;
-        // public event System.Timers.ElapsedEventHandler Elapsed;
-
         public bool checkIfPressed = false;
 
         public async void OnStartClicked(object sender, EventArgs e)
@@ -157,8 +150,15 @@ namespace TimedMath
             Entry enterName = (Entry)FindByName("enterName");
 
             Button submitName = (Button)FindByName("EnterNameBtn");
+
+            Switch withoutTimeLimit = (Switch)FindByName("checkTimeLimit");
+                       
+            VerticalStackLayout mathCoices = (VerticalStackLayout)FindByName("coices");
+
             if (!checkIfPressed)
             {
+
+                mathCoices.IsVisible = false;
 
                 skipBtn.IsVisible = true;
 
@@ -166,36 +166,85 @@ namespace TimedMath
 
                 question.IsVisible = true;
 
-                /*CancellationTokenSource source = new CancellationTokenSource();
-                CancellationToken token = source.Token;
-                */
                 totalPoints = 0;
+
                 StartBtn.Text = "Stopp";
-                checkIfPressed = true;
-                ChangeLabel();
-                await Task.Delay(120000/*, token*/);
+
+                enterName.IsVisible = false;
+
+                submitName.IsVisible = false;
 
             }
 
-            // Player player1 = new Player("test", "guestPost");
+            if (!withoutTimeLimit.IsToggled)
+            {
+                if (!checkIfPressed)
+                {
+                    checkIfPressed = true;
 
-            StartBtn.Text = "Start";
+                    ChangeLabel();
 
-            //Task.
+                    await Task.Delay(120000/*, token*/);
 
+                    enterName.IsVisible = true;
 
-            ansLabel.Text = "Total points: " + totalPoints;
-            checkIfPressed = false;
+                    submitName.IsVisible = true;
 
-            skipBtn.IsVisible = false;
+                    StartBtn.Text = "Start";
 
-            entry.IsVisible = false;
+                    ansLabel.Text = "Total points: " + totalPoints;
 
-            enterName.IsVisible = true;
+                    skipBtn.IsVisible = false;
 
-            submitName.IsVisible = true;
+                    entry.IsVisible = false;
 
+                    checkIfPressed = false;
 
+                }
+                else
+                {
+                    checkIfPressed = false;
+
+                    StartBtn.Text = "Start";
+
+                    ansLabel.Text = "Total points: " + totalPoints;
+
+                    skipBtn.IsVisible = false;
+
+                    entry.IsVisible = false;
+
+                    enterName.IsVisible = true;
+
+                    submitName.IsVisible = true;
+
+                    mathCoices.IsVisible = true;
+
+                }
+            }
+            if (withoutTimeLimit.IsToggled)
+            {
+                if (!checkIfPressed)
+                {
+                    checkIfPressed = true;
+
+                    ChangeLabel();
+                }
+                else
+                {
+                    checkIfPressed = false;
+
+                    StartBtn.Text = "Start";
+
+                    ansLabel.Text = "Total points: " + totalPoints;
+
+                    skipBtn.IsVisible = false;
+
+                    entry.IsVisible = false;
+
+                    mathCoices.IsVisible = true;
+                }
+
+            }
 
         }
 
@@ -206,21 +255,15 @@ namespace TimedMath
                 ChangeLabel();
             }
 
-            // Player player1 = new Player("test", "guestPost");
-
-        
+              
         }
-
 
 
         public void MultiplicationTableActive(object sender, EventArgs e)
         {
-            /*CheckBox plus = (CheckBox)FindByName("plusCheckbox");
-            CheckBox minus = (CheckBox)FindByName("minusCheckbox");
-            CheckBox divided = (CheckBox)FindByName("dividedCheckbox");
-            CheckBox multiply = (CheckBox)FindByName("multiplyCheckbox");
-            */
+
             HorizontalStackLayout checkBoxes = (HorizontalStackLayout)FindByName("checkBoxes");
+
 
             if (checkBoxes.IsVisible == true)
             {
@@ -234,23 +277,13 @@ namespace TimedMath
         }
 
 
-
         private void SubmitAnswerClicked(object sender, EventArgs e)
         {
 
             Entry userName = (Entry)FindByName("enterName");
             string user = userName.Text;
 
-            
-            //Check för att se att inget av fälten är tomma. Om något är tomt skrivs ett felmeddelande ut och metoden körs om från början.
-           /* if (guestName.Length == 0 || guestPost.Length == 0)
-            {
-                Console.WriteLine("\r\nBåde gästnamn och inlägg måste skrivas!");
-                Guest.WritePost(fileName);
-            }
-            //annars skapas ett nytt object för inlägg med namn och meddelande med hjälp av Guest konstruktorn.
-            else
-            {*/
+
                 MainPage.Player player = new Player(totalPoints, user);
 
             //Objektet Json serializeras med hjälp av inställningarna i början av metoden.
@@ -283,12 +316,6 @@ namespace TimedMath
             //Används för att skriva ut ett index till varje inlägg (kanske en for-loop hade varit bättre men det här fungerar bra.)
 
             Player[] players = {};
-
-            // Clear the array
-           /* Array.Clear(players, 0, players.Length);
-            Array.Resize(ref players, 0);
-           */
-
 
             foreach (var line in File.ReadAllLines(fileName))
             {
@@ -330,37 +357,144 @@ namespace TimedMath
 
         }
 
+        public string[] CheckMathMethod()
+        {
+            HorizontalStackLayout checkBoxes = (HorizontalStackLayout)FindByName("checkBoxes");
+
+            string[] method = {};
+
+                CheckBox plus = (CheckBox)FindByName("plusCheckbox");
+                CheckBox minus = (CheckBox)FindByName("minusCheckbox");
+                CheckBox divided = (CheckBox)FindByName("dividedCheckbox");
+                CheckBox multiply = (CheckBox)FindByName("multiplyCheckbox");
+
+                if (minus.IsChecked == true)
+                {
+                    Array.Resize(ref method, method.Length + 1);
+
+                    method[method.Length - 1] = "-";
+                }
+                if (divided.IsChecked == true)
+                {
+                    Array.Resize(ref method, method.Length + 1);
+
+                    method[method.Length - 1] = "/";
+                }
+                if (multiply.IsChecked == true)
+                {
+                    Array.Resize(ref method, method.Length + 1);
+
+                    method[method.Length - 1] = "*";
+                }
+                else if(plus.IsChecked || (!minus.IsChecked && !divided.IsChecked && !multiply.IsChecked))
+                {
+                    Array.Resize(ref method, method.Length + 1);
+
+                    method[method.Length - 1] = "+";
+                }
+
+                return method;            
+        }
+
         public void ChangeLabel()
         {
-            int maxRandomNumb = 11;
 
-            if (totalPoints > 5 && totalPoints < 10)
+            var random = new Random();
+
+            Switch switchMultiTable = (Switch)FindByName("switchMultiTable");
+
+            if (!switchMultiTable.IsToggled)
             {
-                maxRandomNumb = 21;
+                string[] method = CheckMathMethod();
+
+                int maxRandomNumb = 7;
+
+                if (totalPoints > 15 && totalPoints < 20)
+                {
+                    maxRandomNumb = 11;
+                }
+                else if (totalPoints > 20 && totalPoints < 25)
+                {
+                    maxRandomNumb = 16;
+                }
+                else if (totalPoints > 25 && totalPoints < 30)
+                {
+                    maxRandomNumb = 31;
+                }
+                else if (totalPoints > 30 && totalPoints < 40)
+                {
+                    maxRandomNumb = 51;
+                }
+                else if (totalPoints > 40)
+                {
+                    maxRandomNumb = 101;
+                }
+
+                int num1 = random.Next(maxRandomNumb);
+                int num2 = random.Next(maxRandomNumb);
+
+                
+                int calcMethod = random.Next(method.Length);
+
+                string calc = method[calcMethod];
+                if (calc == "+")
+                {
+                    answer = (num1 + num2).ToString();
+                }
+                if (calc == "-")
+                {
+                    if(num1 < num2)
+                    {
+                        int tempNum = num1;
+                        num1 = num2;
+                        num2 = tempNum;
+                    }
+                    answer = (num1 - num2).ToString();
+                }
+                if (calc == "/")
+                {
+                    if (num2 == 0)
+                    {
+                        num2 = 1;
+                    }
+
+                    while ((num1 % num2) != 0)
+                    {
+                        num1 = random.Next(maxRandomNumb);
+                        num2 = random.Next(maxRandomNumb);
+
+                        if (num2 == 0)
+                        {
+                            num2 = 1;
+                        }
+                    }
+
+                    answer = (num1 / num2).ToString();
+
+                }
+                if (calc == "*")
+                {
+                    num1 = random.Next(11);
+                    num2 = random.Next(11);
+                    answer = (num1 * num2).ToString();
+                }
+
+
+                string retVal = $"{num1} {calc} {num2} = ?";
+                Label ansLabel = (Label)FindByName("question");
+                ansLabel.Text = retVal;
             }
-            else if (totalPoints > 10 && totalPoints < 20)
+            else
             {
-                maxRandomNumb = 51;
+                int num1 = random.Next(11);
+                int num2 = random.Next(11);
+
+                answer = (num1 * num2).ToString();
+
+                string retVal = $"{num1} * {num2} = ?";
+                Label ansLabel = (Label)FindByName("question");
+                ansLabel.Text = retVal;
             }
-            else if (totalPoints > 20)
-            {
-                maxRandomNumb = 101;
-            }
-            var rand = new Random();
-            int num1 = rand.Next(maxRandomNumb);
-            int num2 = rand.Next(maxRandomNumb);
-
-
-
-            answer = (num1 + num2).ToString();
-
-            string retVal = $"{num1} + {num2} = ?";
-            Label ansLabel = (Label)FindByName("question");
-            ansLabel.Text = retVal;
-
-            //bool check = false;
-
-            //RightAnswer(answer, check);
 
         }
     }
