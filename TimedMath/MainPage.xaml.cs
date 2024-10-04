@@ -88,27 +88,33 @@ namespace TimedMath
 
                 highScoreString.Append($"HighScore\n");
 
-                //Alla rader i filen skrivs ut en efter en
-                foreach (var line in File.ReadAllLines(fileName))
+                try
                 {
-                    //Check så att inga tomma rader tas med (har dock begränsat det i metoden för skriva nya inlägg)
-                    if (line.Length > 0)
+                    //Alla rader i filen skrivs ut en efter en
+                    foreach (var line in File.ReadAllLines(fileName))
                     {
-                        //Varje rad deserializeras och objekt görs i Guest konstruktorn
-                        MainPage.Player player = JsonSerializer.Deserialize<Player>(line)!;
+                        //Check så att inga tomma rader tas med (har dock begränsat det i metoden för skriva nya inlägg)
+                        if (line.Length > 0)
+                        {
+                            //Varje rad deserializeras och objekt görs i Guest konstruktorn lägg till felhantering
+                            MainPage.Player player = JsonSerializer.Deserialize<Player>(line)!;
 
 
-                        counter++;
+                            counter++;
 
 
-                        //Index, namn och inlägget skrivs ut på skärmen
+                            //Index, namn och inlägget skrivs ut på skärmen
 
 
-                        highScoreString.Append($"{counter}. {player.User}: {player.Score}\n");
+                            highScoreString.Append($"{counter}. {player.User}: {player.Score}\n");
 
-                        //Räknar upp index
+                            //Räknar upp index
 
+                        }
                     }
+                } catch 
+                {
+                    File.Create(fileName).Dispose();
                 }
 
                 highScore.Text = highScoreString.ToString();
@@ -344,9 +350,20 @@ namespace TimedMath
 
             File.WriteAllText(fileName, string.Empty);
 
-            Player[] toSavePlayers = new Player[5];
-            Array.Copy(players, toSavePlayers, 5);
+            int arrLength;
 
+            if(players.Length <5)
+            {
+                arrLength = players.Length;
+            }
+            else
+            {
+                arrLength = 5;
+            }
+
+            Player[] toSavePlayers = new Player[arrLength];
+            Array.Copy(players, toSavePlayers, arrLength);
+                       
             foreach (var playerObject in toSavePlayers)
             {
                 string player = JsonSerializer.Serialize(playerObject);
