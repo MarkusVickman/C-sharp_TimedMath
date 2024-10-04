@@ -13,6 +13,8 @@ namespace TimedMath
 
 
         public bool checkIfPressed = false;
+        public bool checkIfTimerStarted = false;
+
 
         public async void OnStartClicked(object sender, EventArgs e)
         {
@@ -60,7 +62,11 @@ namespace TimedMath
 
                     ChangeLabel();
 
+                    StartButtonTimer();
+
                     await Task.Delay(120000/*, token*/);
+
+                    StartButtonTimer();
 
                     enterName.IsVisible = true;
 
@@ -125,6 +131,59 @@ namespace TimedMath
             }
 
         }
+
+        public void StartButtonTimer()
+        {
+            if (checkIfTimerStarted)
+            {
+
+            }
+            else
+            {
+
+            }
+
+        /* EGEN FUNKTION??
+
+        //Skriva ut tid.
+        DateTime startTime = DateTime.Now;
+
+        TimeSpan elapsedTime = (DateTime.Now - startTime);
+
+        int secondsRemaining = (int)(120000 - elapsedTime.Seconds);
+
+        StartBtn.Text = $"Stopp {secondsRemaining}";
+
+
+                                Action tickAction = () => Console.WriteLine(DateTime.Now);
+            int lastTick = DateTime.Now.TimeOfDay.Seconds;
+            while (true)
+            {
+                var seconds = DateTime.Now.TimeOfDay.Seconds;
+                if(lastTick != seconds)
+                {
+                    lastTick = seconds;
+                    tickAction();
+                }
+            }
+
+
+        ELLER DENNA?
+
+
+        static System.Threading.Timer timer = new(CallBack, null, 0, 0);
+
+        static void CallBack(object? state)
+        {
+        var now = DateTime.Now;
+        timer.Change(1000 - now.Millisecond, 0);
+
+        // Console.WriteLine(now + " " + now.Millisecond);
+        }
+         */
+
+    }
+
 
 
     }
