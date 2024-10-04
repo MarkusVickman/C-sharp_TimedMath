@@ -10,13 +10,12 @@ namespace TimedMath
     public partial class MainPage : ContentPage
     {
 
-
-
-        public static string fileName;
-
-        public static void FileLocation()
+        public static string FileLocation()
         {
-            if (isAndroid())
+
+            string fileName;
+
+            if (AndroidDevice())
             {
                 fileName = System.IO.Path.Combine(FileSystem.Current.AppDataDirectory, "highScore.json");
             }
@@ -24,7 +23,12 @@ namespace TimedMath
             {
                 fileName = @"c:\windows\Temp\highscore.json";
             }
-        }
+
+            return fileName;
+
+    }
+
+
 
         private void LoadHighScore()
         {
@@ -32,10 +36,10 @@ namespace TimedMath
             //Om filen inte redan finns så skapas en ny
             if (!File.Exists(FileLocation()))
             {
-                File.Create(fileName).Dispose();
+                File.Create(FileLocation()).Dispose();
             }
 
-            string jsonString = File.ReadAllText(fileName);
+            string jsonString = File.ReadAllText(FileLocation());
 
             //Om filen inte är tom skrivs alla inlägg ut på skärmen
             if (!string.IsNullOrWhiteSpace(jsonString))
@@ -58,7 +62,7 @@ namespace TimedMath
                 try
                 {
                     //Alla rader i filen skrivs ut en efter en
-                    foreach (var line in File.ReadAllLines(fileName))
+                    foreach (var line in File.ReadAllLines(FileLocation()))
                     {
                         //Check så att inga tomma rader tas med (har dock begränsat det i metoden för skriva nya inlägg)
                         if (line.Length > 0)
@@ -82,7 +86,7 @@ namespace TimedMath
                 }
                 catch
                 {
-                    File.Create(fileName).Dispose();
+                    File.Create(FileLocation()).Dispose();
                 }
 
                 highScore.Text = highScoreString.ToString();
@@ -104,7 +108,7 @@ namespace TimedMath
 
             Player[] players = { };
 
-            foreach (var line in File.ReadAllLines(fileName))
+            foreach (var line in File.ReadAllLines(FileLocation()))
             {
                 //Check så att inga tomma rader tas med (har dock begränsat det i metoden för skriva nya inlägg)
                 if (line.Length > 0)
@@ -127,17 +131,17 @@ namespace TimedMath
             Array.Sort(players, (x, y) => x.Score.CompareTo(y.Score));
             Array.Reverse(players);
 
-            File.WriteAllText(fileName, string.Empty);
+            File.WriteAllText(FileLocation(), string.Empty);
 
             int arrLength;
 
-            if (players.Length < 5)
+            if (players.Length < 10)
             {
                 arrLength = players.Length;
             }
             else
             {
-                arrLength = 5;
+                arrLength = 10;
             }
 
             Player[] toSavePlayers = new Player[arrLength];
@@ -148,7 +152,7 @@ namespace TimedMath
                 string player = JsonSerializer.Serialize(playerObject);
 
                 //En rad skrivs in i filen där objektet nu har json-format och avslutas på en tom rad.
-                File.AppendAllText(fileName, player + Environment.NewLine);
+                File.AppendAllText(FileLocation(), player + Environment.NewLine);
             }
 
             LoadHighScore();
@@ -169,7 +173,7 @@ namespace TimedMath
             string player2 = JsonSerializer.Serialize(player);
 
             //En rad skrivs in i filen där objektet nu har json-format och avslutas på en tom rad.
-            File.AppendAllText(fileName, player2 + Environment.NewLine);
+            File.AppendAllText(FileLocation(), player2 + Environment.NewLine);
 
             Entry enterName = (Entry)FindByName("enterName");
 

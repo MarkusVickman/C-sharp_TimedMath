@@ -21,10 +21,10 @@ namespace TimedMath
     public partial class MainPage : ContentPage
     {
 
-        public static bool IsAndroid() =>
-            DeviceInfo.Current.Platform == DevicePlatform.Android;
-
-        FileLocation();
+        public static bool AndroidDevice()
+        {
+            return DeviceInfo.Current.Platform == DevicePlatform.Android;
+        }
 
         public string answer;
         public int totalPoints;
@@ -91,7 +91,7 @@ namespace TimedMath
         public void MultiplicationTableActive(object sender, EventArgs e)
         {
 
-            HorizontalStackLayout checkBoxes = (HorizontalStackLayout)FindByName("checkBoxes");
+            VerticalStackLayout checkBoxes = (VerticalStackLayout)FindByName("checkBoxes");
 
 
             if (checkBoxes.IsVisible == true)

@@ -9,11 +9,9 @@ namespace TimedMath
     public partial class MainPage : ContentPage
     {
 
-
-
         public string[] CheckMathMethod()
         {
-            HorizontalStackLayout checkBoxes = (HorizontalStackLayout)FindByName("checkBoxes");
+            VerticalStackLayout checkBoes = (VerticalStackLayout)FindByName("checkBoxes");
 
             string[] method = { };
 

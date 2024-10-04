@@ -14,9 +14,9 @@
             Padding="30,0"
             Spacing="25">
             <Image
-                Margin="0,20,0,20"
+                Margin="{OnPlatform Android='0,10,0,10', WinUI='0,50,0,50'}"
                 Source="timed_math.png"
-                HeightRequest="250"
+                HeightRequest="100"
                 Aspect="AspectFit"
                 SemanticProperties.Description="dot net bot in a race car number eight" />
 
@@ -24,39 +24,45 @@
                 x:Name="StartBtn"
                 Text="Start"
                 Margin="0,-10,0,0"
-                FontSize="Micro"
+                
+                FontSize="{OnPlatform Android='Medium', WinUI='Micro'}"
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="OnStartClicked"
                 HorizontalOptions="Fill" />
 
             <VerticalStackLayout
-                x:Name="coices">
+                x:Name="coices"
+                Margin="20,0,0,0">
                 <Label
                 Text="Calculation method"                
                 HorizontalOptions="Fill" 
                 HorizontalTextAlignment="Center" 
-                FontSize="Medium" TextColor="black" 
-                Margin="0,0,0,0"                
+                FontSize="{OnPlatform Android='Large', WinUI='Medium'}" TextColor="black" 
+                Margin="-20,0,0,0"                
                 />
             
             <HorizontalStackLayout HorizontalOptions="Center" Margin="0,0,0,0">
-                <Label Margin="0,7,0,0" Text="Without timelimit"  TextColor="black"/>
+                    <Label Margin="0,7,0,0" Text="Without timelimit"  TextColor="black" FontSize="{OnPlatform Android='Medium', WinUI='Micro'}"/>
                 <Switch                   
                     Margin="20, 0, 0, 0"
                     x:Name="checkTimeLimit"
                     />
             </HorizontalStackLayout>
             <HorizontalStackLayout HorizontalOptions="Center" Margin="0,0,0,0">
-                <Label Margin="0,0,0,0" Text="Multiplication table"  TextColor="black"/>
+                    <Label Margin="0,0,0,0" Text="Multiplication table" FontSize="{OnPlatform Android='Medium', WinUI='Micro'}" TextColor="black"/>
                 <Switch                   
                     Margin="9, -8, 0, 0"
                     x:Name="switchMultiTable"
                     Toggled="MultiplicationTableActive"/>
             </HorizontalStackLayout>
+                <VerticalStackLayout
+                   x:Name="checkBoxes">
+            <HorizontalStackLayout 
+                HorizontalOptions="Center" 
+                Margin="-2,5,0,0">
 
-            <HorizontalStackLayout HorizontalOptions="Center" x:Name="checkBoxes" Margin="0,0,0,0">
-
-                <Label Margin="0,0,0,0" 
+                <Label Margin="21,0,0,0" 
+                       FontSize="{OnPlatform Android='Medium', WinUI='Micro'}"
                        Text="Plus +" 
                        TextColor="black"/>
                 <CheckBox IsChecked="False" 
@@ -66,31 +72,39 @@
 
 <!--            </HorizontalStackLayout>
             <HorizontalStackLayout HorizontalOptions="Center"> -->
-                <Label Margin="10,0,0,0" 
-                       Text="Minus -"                        
+                <Label Margin="30,0,0,0" 
+                       Text="Minus -"
+                       FontSize="{OnPlatform Android='Medium', WinUI='Micro'}"
                        TextColor="black"/>
                 <CheckBox IsChecked="False" 
                           Margin="0, -10, 0, 0"
                           x:Name="minusCheckbox" 
                           />
-
-                <!--            </HorizontalStackLayout>
-            <HorizontalStackLayout HorizontalOptions="Center"> -->
-                <Label Margin="10,0,0,0" Text="Divided /"  TextColor="black"/>
-                <CheckBox IsChecked="False" 
+                
+           </HorizontalStackLayout>
+                <HorizontalStackLayout HorizontalOptions="Center" Margin="-15,0,0,0">
+                    <Label Margin="10,0,0,0" 
+                           Text="Divided /"  
+                           TextColor="black"
+                           FontSize="{OnPlatform Android='Medium', WinUI='Micro'}"/>
+                <CheckBox IsChecked="False"                          
                           x:Name="dividedCheckbox"
-                          Margin="0, -10, 0, 0"
+                          Margin="{OnPlatform Android='0,-10,0,0', WinUI='4,-10,0,0'}"
                           />
 
                 <!--            </HorizontalStackLayout>
             <HorizontalStackLayout HorizontalOptions="Center"> -->
-                <Label Margin="10,0,0,0" Text="Multiply *" TextColor="black"/>
+                <Label Margin="10,0,0,0" 
+                       FontSize="{OnPlatform Android='Medium', WinUI='Micro'}"
+                       Text="Multiply *" 
+                       TextColor="black"
+                       />
                 <CheckBox IsChecked="False" 
-                           x:Name="multiplyCheckbox"
-                          Margin="0, -10, 0, 0"
+                          x:Name="multiplyCheckbox"
+                          Margin="{OnPlatform Android='0,-10,0,0', WinUI='3,-10,0,0'}"
                           />
-
-            </HorizontalStackLayout>
+                </HorizontalStackLayout>
+                </VerticalStackLayout>
             </VerticalStackLayout>
 
 
@@ -122,7 +136,7 @@
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="OnSkipClicked"
                 HorizontalOptions="Center" 
-                FontSize="Micro"
+                FontSize="{OnPlatform Android='Medium', WinUI='Micro'}"
                 IsVisible="False"/>
 
             <Entry 
@@ -138,14 +152,12 @@
             <Button
                 x:Name="EnterNameBtn"
                 Text="Submit" 
-                FontSize="Micro"
+                FontSize="{OnPlatform Android='Medium', WinUI='Micro'}"
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="SubmitAnswerClicked"
                 HorizontalOptions="Center" 
                 IsVisible="False"/>
 
-            <Line/>
-            <Line/>
             <Label 
                 x:Name="highScore"
                 Text="Highscore"
