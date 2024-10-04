@@ -127,65 +127,38 @@ namespace TimedMath
 
                     mathCoices.IsVisible = true;
                 }
-
             }
-
         }
 
-        public void StartButtonTimer()
+        public async void StartButtonTimer()
         {
-            if (checkIfTimerStarted)
+
+            DateTime startTime = DateTime.Now;
+
+
+                       
+
+            while (checkIfPressed)
             {
-
-            }
-            else
-            {
-
-            }
-
-        /* EGEN FUNKTION??
-
-        //Skriva ut tid.
-        DateTime startTime = DateTime.Now;
-
-        TimeSpan elapsedTime = (DateTime.Now - startTime);
-
-        int secondsRemaining = (int)(120000 - elapsedTime.Seconds);
-
-        StartBtn.Text = $"Stopp {secondsRemaining}";
+                
+                await Task.Delay(1000/*, token*/);
 
 
-                                Action tickAction = () => Console.WriteLine(DateTime.Now);
-            int lastTick = DateTime.Now.TimeOfDay.Seconds;
-            while (true)
-            {
-                var seconds = DateTime.Now.TimeOfDay.Seconds;
-                if(lastTick != seconds)
+
+                TimeSpan elapsedTime = (DateTime.Now - startTime);
+
+                int secondsRemaining = (int)(120 - elapsedTime.Seconds);
+
+                if (!checkIfPressed)
                 {
-                    lastTick = seconds;
-                    tickAction();
+                    break;
                 }
+
+                    Button startBtn = (Button)FindByName("StartBtn");
+
+                startBtn.Text = $"Stopp {secondsRemaining}";
             }
-
-
-        ELLER DENNA?
-
-
-        static System.Threading.Timer timer = new(CallBack, null, 0, 0);
-
-        static void CallBack(object? state)
-        {
-        var now = DateTime.Now;
-        timer.Change(1000 - now.Millisecond, 0);
-
-        // Console.WriteLine(now + " " + now.Millisecond);
         }
-         */
-
-    }
-
-
-
-    }
+        }
 
 }

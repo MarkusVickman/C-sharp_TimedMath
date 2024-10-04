@@ -157,8 +157,9 @@
                 Clicked="SubmitAnswerClicked"
                 HorizontalOptions="Center" 
                 IsVisible="False"/>
-
+            
             <Label 
+                HorizontalTextAlignment="Start"
                 x:Name="highScore"
                 Text="Highscore"
                 TextColor="black"
