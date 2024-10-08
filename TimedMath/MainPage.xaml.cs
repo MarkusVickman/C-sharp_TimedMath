@@ -1,84 +1,66 @@
-﻿using System;
-using System.Diagnostics.Metrics;
-using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Text.Json;
-using System.Text.Unicode;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui.Controls.PlatformConfiguration;
-using Microsoft.Maui.Storage;
+﻿/*Math application to help people get faster att easy math. I believe that repetition helps people to se patterna in math. 
+  The application let the user choose calculation method minus, divided, plus and multipication. If the user calulate math with the timelimit enabled a final score will be provided and can be appied to a highscore that is stored localy on a file
+  Based on the number of total points the numbers to calculate gets larger and larger. The user can skip without penalty
+ CREATED BY MARKUS VICKMAN OCTOBER 2024*/
 
-//using Windows.ApplicationModel.Calls;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-//using static Android.Provider.Contacts;
-
+//Application TimedMath is all located in namespace TimedMath
 namespace TimedMath
 {
+    //The application uses only one page. This partial class is also used by math.xaml.cs highscoretofile.xaml.cs startandstopp.xaml.cs
     public partial class MainPage : ContentPage
     {
-
-        public static bool AndroidDevice()
-        {
-            return DeviceInfo.Current.Platform == DevicePlatform.Android;
-        }
-
+        //sting that stores the right answer, the string is replaced with every new number to calculate 
         public string answer;
+        //integer that gets +1 for every right answer
         public int totalPoints;
 
-        //private static Timer timer;
-
-
-        int count = 0;
-
+        //class for creating player objects. Used before storing or loading to file and when sorting highscore is done.
         public class Player
         {
             public int Score { get; set; }
             public string User { get; set; }
 
-            //Konstruktorn som skapar gästinläggs-objekt
+            //Constructor for player object. Includes player namn and player score
             public Player(int score, string user)
             {
                 Score = score;
                 User = user;
             }
         }
-
-            public MainPage()
+            
+        //MainPage() runs when the applications starts
+        public MainPage()
         {
             InitializeComponent();
 
-            Entry entry = new Entry { Placeholder = "Enter text" };
+            //On changed input in entry field method OnEntryTextChanged() starts. OnEntryCompleted is not used but cant be removed.
             entry.TextChanged += OnEntryTextChanged!;
             entry.Completed += OnEntryCompleted!;
 
-            //Metoden för programmets val körs
+            //Method starts to load high score
             this.LoadHighScore();
         }
 
+        //Method to check if input is the right answer for the math question
         private void OnEntryTextChanged(object sender, TextChangedEventArgs e)
         {
             string text = ((Entry)sender).Text;
-            // Handle the text changed event here
+            // If the answer matches the right answer and if the test is running (checkIfPressed) 
             if (text == answer && checkIfPressed)
             {
+                //adds one point and initiate a method to change numbers to calculate then sets entryfield to an empty string
                 totalPoints++;
                 ChangeLabel();
                 ((Entry)sender).Text = "";
             }
         }
 
-        
+        //OnEntryCompleted is not used but gives error if removed.
         private void OnEntryCompleted(object sender, EventArgs e)
         {
-
-            // Handle the completed event here
         }
 
-
+        //When skip button is clicked a method to change numbers to calculate is initiated
         public void OnSkipClicked(object sender, EventArgs e)
         {
             if (checkIfPressed)
@@ -87,13 +69,10 @@ namespace TimedMath
             }                       
         }
 
-
+        //The method is used to hide math coices when the switch for multiplication table is active
         public void MultiplicationTableActive(object sender, EventArgs e)
         {
-
             VerticalStackLayout checkBoxes = (VerticalStackLayout)FindByName("checkBoxes");
-
-
             if (checkBoxes.IsVisible == true)
             {
                 checkBoxes.IsVisible = false;

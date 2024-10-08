@@ -161,7 +161,7 @@
             <Label 
                 HorizontalTextAlignment="Start"
                 x:Name="highScore"
-                Text="Highscore"
+                Text="High score"
                 TextColor="black"
                 FontSize="Medium"
                 Style="{StaticResource SubHeadline}"

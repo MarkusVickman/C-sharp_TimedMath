@@ -1,164 +1,129 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿//Application TimedMath is all located in namespace TimedMath
 namespace TimedMath
-{
 
+{ //The application uses only one page. This partial class is also used by math.xaml.cs MainPage.xaml.cs startandstopp.xaml.cs
     public partial class MainPage : ContentPage
     {
-
-
-
+        //Bool variables to know if startbutton is pressed and if the timer for it har started
         public bool checkIfPressed = false;
         public bool checkIfTimerStarted = false;
 
-
+        //Method to start the math questions
         public async void OnStartClicked(object sender, EventArgs e)
         {
-
+            //Declares all XAML elements used in this method
             Button skipBtn = (Button)FindByName("SkipBtn");
-
             Entry entry = (Entry)FindByName("entry");
-
             Label ansLabel = (Label)FindByName("question");
-
             Entry enterName = (Entry)FindByName("enterName");
-
             Button submitName = (Button)FindByName("EnterNameBtn");
-
             Switch withoutTimeLimit = (Switch)FindByName("checkTimeLimit");
-
             VerticalStackLayout mathCoices = (VerticalStackLayout)FindByName("coices");
 
+            //If start button is not pressed the math question starts
             if (!checkIfPressed)
             {
-
+                //Shows and hides elements for what is needed in the "RUN" state
                 mathCoices.IsVisible = false;
-
                 skipBtn.IsVisible = true;
-
                 entry.IsVisible = true;
-
                 question.IsVisible = true;
-
-                totalPoints = 0;
-
-                StartBtn.Text = "Stopp";
-
                 enterName.IsVisible = false;
-
                 submitName.IsVisible = false;
 
+                //Resets total points
+                totalPoints = 0;
+                //Changes start button text to stop
+                StartBtn.Text = "Stop";
             }
 
+            //checks if the player has choosen to not have timer
             if (!withoutTimeLimit.IsToggled)
             {
+                //If start button is not pressed the math question starts
                 if (!checkIfPressed)
                 {
+                    //now that the start button is press it checkes to true
                     checkIfPressed = true;
 
+                    //initiate function to start math questoins and a method to write a ticking timer to the start button
                     ChangeLabel();
-
                     StartButtonTimer();
 
+                    //Sets how long time the user have to solve math questions. ! needs to be changed is StartButtonTimer() also! 
                     await Task.Delay(120000/*, token*/);
-
-                    StartButtonTimer();
-
-                    enterName.IsVisible = true;
-
-                    submitName.IsVisible = true;
-
-                    StartBtn.Text = "Start";
-
-                    ansLabel.Text = "Total points: " + totalPoints;
-
-                    skipBtn.IsVisible = false;
-
-                    entry.IsVisible = false;
-
-                    checkIfPressed = false;
-
-                    mathCoices.IsVisible = true;
-
                 }
-                else
-                {
-                    checkIfPressed = false;
 
-                    StartBtn.Text = "Start";
+                //changes start button text and writes totals points to screen
+                StartBtn.Text = "Start";
+                ansLabel.Text = "Total points: " + totalPoints;
 
-                    ansLabel.Text = "Total points: " + totalPoints;
+                //sets so the start button in not recognized as pressed
+                checkIfPressed = false;
 
-                    skipBtn.IsVisible = false;
-
-                    entry.IsVisible = false;
-
-                    enterName.IsVisible = true;
-
-                    submitName.IsVisible = true;
-
-                    mathCoices.IsVisible = true;
-
-                }
+                //Shows and hides elements for what is needed in the "STOP" state
+                enterName.IsVisible = true;
+                submitName.IsVisible = true;
+                skipBtn.IsVisible = false;
+                entry.IsVisible = false;
+                mathCoices.IsVisible = true;
             }
+
+            //if the user choose to play without timer
             if (withoutTimeLimit.IsToggled)
             {
+                //If start is now already pressed, the math questions starts in the method ChangeLabel()
                 if (!checkIfPressed)
                 {
+                    //now that the start button is press it checkes to true
                     checkIfPressed = true;
-
                     ChangeLabel();
                 }
                 else
                 {
+                    //sets so the start button in not recognized as pressed
                     checkIfPressed = false;
 
+                    //changes start button text and writes totals points to screen
                     StartBtn.Text = "Start";
-
                     ansLabel.Text = "Total points: " + totalPoints;
 
+                    //Shows and hides elements for what is needed in the "STOP" state
                     skipBtn.IsVisible = false;
-
                     entry.IsVisible = false;
-
                     mathCoices.IsVisible = true;
                 }
             }
         }
 
+        //method to write time left to start button
         public async void StartButtonTimer()
         {
-
+            //First sets the start time when the questions started
             DateTime startTime = DateTime.Now;
-
-
-                       
-
+                                   
+            //Only runs as long as the startbutton is mark as true.
             while (checkIfPressed)
             {
-                
-                await Task.Delay(1000/*, token*/);
+                //a seconds delay. 
+                await Task.Delay(1000);
 
-
-
-                TimeSpan elapsedTime = (DateTime.Now - startTime);
-
-                int secondsRemaining = (int)(120 - elapsedTime.Seconds);
-
+                //stops if the math questions has stoped
                 if (!checkIfPressed)
                 {
                     break;
                 }
 
-                    Button startBtn = (Button)FindByName("StartBtn");
+                //Calculate the time elapsed based on current time and starting time
+                TimeSpan elapsedTime = (DateTime.Now - startTime);
 
-                startBtn.Text = $"Stopp {secondsRemaining}";
+                //Calculates the time remaining based on 120 seconds minus elaped time. 120 needs to be changed if another value for the main delay is changed in OnStartClicked()
+                int secondsRemaining = (int)(120 - elapsedTime.Seconds);
+
+                //Writes text and seconds remaining to start button.
+                Button startBtn = (Button)FindByName("StartBtn");
+                startBtn.Text = $"Stop - {secondsRemaining}";
             }
         }
         }
-
 }
