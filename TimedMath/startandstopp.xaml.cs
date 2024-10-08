@@ -40,6 +40,10 @@ namespace TimedMath
             //checks if the player has choosen to not have timer
             if (!withoutTimeLimit.IsToggled)
             {
+                // Create a CancellationTokenSource
+                CancellationTokenSource cts = new CancellationTokenSource();
+                CancellationToken ct = cts.Token;
+
                 //If start button is not pressed the math question starts
                 if (!checkIfPressed)
                 {
@@ -50,8 +54,8 @@ namespace TimedMath
                     ChangeLabel();
                     StartButtonTimer();
 
-                    //Sets how long time the user have to solve math questions. ! needs to be changed is StartButtonTimer() also! 
-                    await Task.Delay(120000/*, token*/);
+                    //Sets how long time the user have to solve math questions.! needs to be changed is StartButtonTimer() also! 
+                    await Task.Delay(120000, ct);
                 }
 
                 //changes start button text and writes totals points to screen
@@ -67,6 +71,9 @@ namespace TimedMath
                 skipBtn.IsVisible = false;
                 entry.IsVisible = false;
                 mathCoices.IsVisible = true;
+
+                //Cancels the delay timer so the app wont bug if stopped and restarted before 120 seconds.
+                cts.Cancel();
             }
 
             //if the user choose to play without timer
@@ -118,7 +125,7 @@ namespace TimedMath
                 TimeSpan elapsedTime = (DateTime.Now - startTime);
 
                 //Calculates the time remaining based on 120 seconds minus elaped time. 120 needs to be changed if another value for the main delay is changed in OnStartClicked()
-                int secondsRemaining = (int)(120 - elapsedTime.Seconds);
+                int secondsRemaining = (int)(120 - elapsedTime.TotalSeconds);
 
                 //Writes text and seconds remaining to start button.
                 Button startBtn = (Button)FindByName("StartBtn");

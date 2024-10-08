@@ -1,4 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<!-- /*Math application to help people get faster att easy math. I believe that repetition helps people to se patterna in math. 
+  The application let the user choose calculation method minus, divided, plus and multipication. If the user calulate math with the timelimit enabled a final score will be provided and can be appied to a highscore that is stored localy on a file
+  Based on the number of total points the numbers to calculate gets larger and larger. The user can skip without penalty
+ CREATED BY MARKUS VICKMAN OCTOBER 2024*/ -->
+    
+    <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TimedMath.MainPage" 
@@ -6,30 +11,28 @@
              Shell.NavBarIsVisible="false"
              BackgroundColor="WhiteSmoke"
              >
-               
-
-
-<ScrollView>
+    <!-- The whole all view -->
+    <ScrollView>
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
+            <!-- application icon image -->
             <Image
                 Margin="{OnPlatform Android='0,10,0,10', WinUI='0,50,0,50'}"
                 Source="timed_math.png"
                 HeightRequest="100"
                 Aspect="AspectFit"
                 SemanticProperties.Description="dot net bot in a race car number eight" />
-
+            <!-- start button to start math questions-->
             <Button
                 x:Name="StartBtn"
                 Text="Start"
-                Margin="0,-10,0,0"
-                
+                Margin="0,-10,0,0"                
                 FontSize="{OnPlatform Android='Medium', WinUI='Micro'}"
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="OnStartClicked"
                 HorizontalOptions="Fill" />
-
+            <!-- a stack with all calculations coices. It is used to hide all coices when math questions are shown -->
             <VerticalStackLayout
                 x:Name="coices"
                 Margin="20,0,0,0">
@@ -40,28 +43,30 @@
                 FontSize="{OnPlatform Android='Large', WinUI='Medium'}" TextColor="black" 
                 Margin="-20,0,0,0"                
                 />
-            
-            <HorizontalStackLayout HorizontalOptions="Center" Margin="0,0,0,0">
+                <!-- switch to choose if the player want timer or not -->
+                <HorizontalStackLayout HorizontalOptions="Center" Margin="0,0,0,0">
                     <Label Margin="0,7,0,0" Text="Without timelimit"  TextColor="black" FontSize="{OnPlatform Android='Medium', WinUI='Micro'}"/>
                 <Switch                   
                     Margin="20, 0, 0, 0"
                     x:Name="checkTimeLimit"
                     />
             </HorizontalStackLayout>
-            <HorizontalStackLayout HorizontalOptions="Center" Margin="0,0,0,0">
+                <!-- switch to choose if the player want to calculate the multiplications table 0-10 -->
+                <HorizontalStackLayout HorizontalOptions="Center" Margin="0,0,0,0">
                     <Label Margin="0,0,0,0" Text="Multiplication table" FontSize="{OnPlatform Android='Medium', WinUI='Micro'}" TextColor="black"/>
                 <Switch                   
                     Margin="9, -8, 0, 0"
                     x:Name="switchMultiTable"
                     Toggled="MultiplicationTableActive"/>
             </HorizontalStackLayout>
+                <!-- stack with checkboxes to hide them when multiplications table is switched on -->
                 <VerticalStackLayout
                    x:Name="checkBoxes">
             <HorizontalStackLayout 
                 HorizontalOptions="Center" 
                 Margin="-2,5,0,0">
-
-                <Label Margin="21,0,0,0" 
+                        <!-- plus checkbox -->
+                        <Label Margin="21,0,0,0" 
                        FontSize="{OnPlatform Android='Medium', WinUI='Micro'}"
                        Text="Plus +" 
                        TextColor="black"/>
@@ -69,9 +74,7 @@
                           x:Name="plusCheckbox"  
                           Margin="0, -10, 0, 0"
                           />
-
-<!--            </HorizontalStackLayout>
-            <HorizontalStackLayout HorizontalOptions="Center"> -->
+                        <!-- minus checkbox -->
                 <Label Margin="30,0,0,0" 
                        Text="Minus -"
                        FontSize="{OnPlatform Android='Medium', WinUI='Micro'}"
@@ -79,10 +82,10 @@
                 <CheckBox IsChecked="False" 
                           Margin="0, -10, 0, 0"
                           x:Name="minusCheckbox" 
-                          />
-                
-           </HorizontalStackLayout>
+                          />                
+           </HorizontalStackLayout>                    
                 <HorizontalStackLayout HorizontalOptions="Center" Margin="-15,0,0,0">
+                    <!-- divided checkbox -->
                     <Label Margin="10,0,0,0" 
                            Text="Divided /"  
                            TextColor="black"
@@ -91,9 +94,7 @@
                           x:Name="dividedCheckbox"
                           Margin="{OnPlatform Android='0,-10,0,0', WinUI='4,-10,0,0'}"
                           />
-
-                <!--            </HorizontalStackLayout>
-            <HorizontalStackLayout HorizontalOptions="Center"> -->
+                        <!-- multiply checkbox -->
                 <Label Margin="10,0,0,0" 
                        FontSize="{OnPlatform Android='Medium', WinUI='Micro'}"
                        Text="Multiply *" 
@@ -106,58 +107,52 @@
                 </HorizontalStackLayout>
                 </VerticalStackLayout>
             </VerticalStackLayout>
-
-
-
-            
+            <!-- plus checkbox -->
             <Label 
                 x:Name="question"
-                Text="Enter your name"
+                Text="question"
                 TextColor="black"
                 Style="{StaticResource SubHeadline}"
                 SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I" 
                 IsVisible="False"/>
-
+            <!-- input field for answer, when right answer the method OnEntryTextChanged() is initiated-->
             <Entry 
             x:Name="entry"
             Keyboard="Numeric"
             BackgroundColor="white"
             Placeholder="Enter answer"
-            TextChanged="OnEntryTextChanged"
-            Completed="OnEntryCompleted" 
+            TextChanged="OnEntryTextChanged"  
             WidthRequest="110"
             HeightRequest="50"
             IsVisible="False"/>
-
+            <!-- button to skip math question -->
             <Button
                 x:Name="SkipBtn"
                 Text="Skip" 
-                SemanticProperties.Hint="Counts the number of times you click"
+                SemanticProperties.Hint="skip number"
                 Clicked="OnSkipClicked"
                 HorizontalOptions="Center" 
                 FontSize="{OnPlatform Android='Medium', WinUI='Micro'}"
                 IsVisible="False"/>
-
+            <!-- input field to write username to high score -->
             <Entry 
             x:Name="enterName"
             Placeholder="Enter your name"
             TextChanged="OnEntryTextChanged"
             BackgroundColor="White"
-            Completed="OnEntryCompleted" 
             WidthRequest="130"
             HeightRequest="50"
             IsVisible="False"/>
-
+            <!-- button to sumbit to high score -->
             <Button
                 x:Name="EnterNameBtn"
                 Text="Submit" 
                 FontSize="{OnPlatform Android='Medium', WinUI='Micro'}"
-                SemanticProperties.Hint="Counts the number of times you click"
+                SemanticProperties.Hint="submit to high score"
                 Clicked="SubmitAnswerClicked"
                 HorizontalOptions="Center" 
                 IsVisible="False"/>
-            
+            <!-- writes high scores to screen -->
             <Label 
                 HorizontalTextAlignment="Start"
                 x:Name="highScore"
@@ -166,8 +161,7 @@
                 FontSize="Medium"
                 Style="{StaticResource SubHeadline}"
                 SemanticProperties.HeadingLevel="Level4"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
+                SemanticProperties.Description="list of high scores" />
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>

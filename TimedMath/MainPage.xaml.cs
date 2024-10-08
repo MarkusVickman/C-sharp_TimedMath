@@ -33,15 +33,11 @@ namespace TimedMath
         {
             InitializeComponent();
 
-            //On changed input in entry field method OnEntryTextChanged() starts. OnEntryCompleted is not used but cant be removed.
-            entry.TextChanged += OnEntryTextChanged!;
-            entry.Completed += OnEntryCompleted!;
-
             //Method starts to load high score
             this.LoadHighScore();
         }
 
-        //Method to check if input is the right answer for the math question
+        //Method to check if input is the right answer for the math question. initiates from xaml entry field
         private void OnEntryTextChanged(object sender, TextChangedEventArgs e)
         {
             string text = ((Entry)sender).Text;
@@ -53,11 +49,6 @@ namespace TimedMath
                 ChangeLabel();
                 ((Entry)sender).Text = "";
             }
-        }
-
-        //OnEntryCompleted is not used but gives error if removed.
-        private void OnEntryCompleted(object sender, EventArgs e)
-        {
         }
 
         //When skip button is clicked a method to change numbers to calculate is initiated
