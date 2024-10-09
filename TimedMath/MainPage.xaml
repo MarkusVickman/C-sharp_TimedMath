@@ -1,9 +1,10 @@
-﻿<!-- /*Math application to help people get faster att easy math. I believe that repetition helps people to se patterna in math. 
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- /*Math application to help people get faster att easy math. I believe that repetition helps people to se patterna in math. 
   The application let the user choose calculation method minus, divided, plus and multipication. If the user calulate math with the timelimit enabled a final score will be provided and can be appied to a highscore that is stored localy on a file
   Based on the number of total points the numbers to calculate gets larger and larger. The user can skip without penalty
  CREATED BY MARKUS VICKMAN OCTOBER 2024*/ -->
-    
-    <?xml version="1.0" encoding="utf-8" ?>
+
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TimedMath.MainPage" 
