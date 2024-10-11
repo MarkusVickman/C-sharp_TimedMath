@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <!-- /*Math application to help people get faster att easy math. I believe that repetition helps people to se patterna in math. 
-  The application let the user choose calculation method minus, divided, plus and multipication. If the user calulate math with the timelimit enabled a final score will be provided and can be appied to a highscore that is stored localy on a file
+  The application let the user choose calculation method minus, divided, plus and multipication. If the user calulate math with the time limit enabled a final score will be provided and can be appied to a highscore that is stored localy on a file
   Based on the number of total points the numbers to calculate gets larger and larger. The user can skip without penalty
  CREATED BY MARKUS VICKMAN OCTOBER 2024*/ -->
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TimedMath.MainPage" 
-             Title="TimedMath - Math speedtest"
+             Title="TimedMath - Math speed test"
              Shell.NavBarIsVisible="false"
-             BackgroundColor="WhiteSmoke"
+             BackgroundColor="{OnPlatform Android='DarkBlue', WinUI='WhiteSmoke'}"
              >
     <!-- The whole all view -->
     <ScrollView>
@@ -21,16 +21,15 @@
             <Image
                 Margin="{OnPlatform Android='0,10,0,10', WinUI='0,50,0,50'}"
                 Source="timed_math.png"
-                HeightRequest="100"
+                HeightRequest="80"
                 Aspect="AspectFit"
-                SemanticProperties.Description="dot net bot in a race car number eight" />
+                />
             <!-- start button to start math questions-->
             <Button
                 x:Name="StartBtn"
                 Text="Start"
                 Margin="0,-10,0,0"                
                 FontSize="{OnPlatform Android='Medium', WinUI='Micro'}"
-                SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="OnStartClicked"
                 HorizontalOptions="Fill" />
             <!-- a stack with all calculations coices. It is used to hide all coices when math questions are shown -->
@@ -41,20 +40,29 @@
                 Text="Calculation method"                
                 HorizontalOptions="Fill" 
                 HorizontalTextAlignment="Center" 
-                FontSize="{OnPlatform Android='Large', WinUI='Medium'}" TextColor="black" 
+                FontSize="{OnPlatform Android='Large', WinUI='Medium'}"
+                TextColor="{OnPlatform Android='white', WinUI='black'}"
                 Margin="-20,0,0,0"                
                 />
                 <!-- switch to choose if the player want timer or not -->
                 <HorizontalStackLayout HorizontalOptions="Center" Margin="0,0,0,0">
-                    <Label Margin="0,7,0,0" Text="Without timelimit"  TextColor="black" FontSize="{OnPlatform Android='Medium', WinUI='Micro'}"/>
+                    <Label Margin="0,7,0,0" 
+                           Text="Without time limit"  
+                           FontSize="{OnPlatform Android='Medium', WinUI='Micro'}"
+                           TextColor="{OnPlatform Android='white', WinUI='black'}"
+                           />
                 <Switch                   
-                    Margin="20, 0, 0, 0"
-                    x:Name="checkTimeLimit"
+                    Margin="18, 0, 0, 0"
+                    x:Name="checkTimeLimit"      
                     />
             </HorizontalStackLayout>
                 <!-- switch to choose if the player want to calculate the multiplications table 0-10 -->
                 <HorizontalStackLayout HorizontalOptions="Center" Margin="0,0,0,0">
-                    <Label Margin="0,0,0,0" Text="Multiplication table" FontSize="{OnPlatform Android='Medium', WinUI='Micro'}" TextColor="black"/>
+                    <Label Margin="0,0,0,0" 
+                           Text="Multiplication table" 
+                           FontSize="{OnPlatform Android='Medium', WinUI='Micro'}" 
+                           TextColor="{OnPlatform Android='white', WinUI='black'}"
+                           />
                 <Switch                   
                     Margin="9, -8, 0, 0"
                     x:Name="switchMultiTable"
@@ -70,7 +78,7 @@
                         <Label Margin="21,0,0,0" 
                        FontSize="{OnPlatform Android='Medium', WinUI='Micro'}"
                        Text="Plus +" 
-                       TextColor="black"/>
+                       TextColor="{OnPlatform Android='white', WinUI='black'}"/>
                 <CheckBox IsChecked="False" 
                           x:Name="plusCheckbox"  
                           Margin="0, -10, 0, 0"
@@ -79,7 +87,8 @@
                 <Label Margin="30,0,0,0" 
                        Text="Minus -"
                        FontSize="{OnPlatform Android='Medium', WinUI='Micro'}"
-                       TextColor="black"/>
+                       TextColor="{OnPlatform Android='white', WinUI='black'}"
+                       />
                 <CheckBox IsChecked="False" 
                           Margin="0, -10, 0, 0"
                           x:Name="minusCheckbox" 
@@ -89,7 +98,7 @@
                     <!-- divided checkbox -->
                     <Label Margin="10,0,0,0" 
                            Text="Divided /"  
-                           TextColor="black"
+                           TextColor="{OnPlatform Android='white', WinUI='black'}"
                            FontSize="{OnPlatform Android='Medium', WinUI='Micro'}"/>
                 <CheckBox IsChecked="False"                          
                           x:Name="dividedCheckbox"
@@ -99,7 +108,7 @@
                 <Label Margin="10,0,0,0" 
                        FontSize="{OnPlatform Android='Medium', WinUI='Micro'}"
                        Text="Multiply *" 
-                       TextColor="black"
+                       TextColor="{OnPlatform Android='white', WinUI='black'}"
                        />
                 <CheckBox IsChecked="False" 
                           x:Name="multiplyCheckbox"
@@ -112,14 +121,15 @@
             <Label 
                 x:Name="question"
                 Text="question"
-                TextColor="black"
+                TextColor="{OnPlatform Android='white', WinUI='black'}"
                 Style="{StaticResource SubHeadline}"
-                SemanticProperties.HeadingLevel="Level2"
-                IsVisible="False"/>
+                IsVisible="False"
+                />
             <!-- input field for answer, when right answer the method OnEntryTextChanged() is initiated-->
             <Entry 
             x:Name="entry"
             Keyboard="Numeric"
+            TextColor="Black"
             BackgroundColor="white"
             Placeholder="Enter answer"
             TextChanged="OnEntryTextChanged"  
@@ -139,7 +149,8 @@
             <Entry 
             x:Name="enterName"
             Placeholder="Enter your name"
-            TextChanged="OnEntryTextChanged"
+            TextColor="Black" 
+            Completed="SubmitAnswerClicked"
             BackgroundColor="White"
             WidthRequest="130"
             HeightRequest="50"
@@ -147,7 +158,7 @@
             <!-- button to sumbit to high score -->
             <Button
                 x:Name="EnterNameBtn"
-                Text="Submit" 
+                Text="Submit"                
                 FontSize="{OnPlatform Android='Medium', WinUI='Micro'}"
                 SemanticProperties.Hint="submit to high score"
                 Clicked="SubmitAnswerClicked"
@@ -158,7 +169,7 @@
                 HorizontalTextAlignment="Start"
                 x:Name="highScore"
                 Text="High score"
-                TextColor="black"
+                TextColor="{OnPlatform Android='white', WinUI='black'}"
                 FontSize="Medium"
                 Style="{StaticResource SubHeadline}"
                 SemanticProperties.HeadingLevel="Level4"

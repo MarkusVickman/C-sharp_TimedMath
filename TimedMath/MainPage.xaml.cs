@@ -10,9 +10,9 @@ namespace TimedMath
     public partial class MainPage : ContentPage
     {
         //sting that stores the right answer, the string is replaced with every new number to calculate 
-        public string answer;
+        private string answer;
         //integer that gets +1 for every right answer
-        public int totalPoints;
+        private int totalPoints;
 
         //class for creating player objects. Used before storing or loading to file and when sorting highscore is done.
         public class Player
@@ -52,7 +52,7 @@ namespace TimedMath
         }
 
         //When skip button is clicked a method to change numbers to calculate is initiated
-        public void OnSkipClicked(object sender, EventArgs e)
+        private void OnSkipClicked(object sender, EventArgs e)
         {
             if (checkIfPressed)
             {
@@ -61,7 +61,7 @@ namespace TimedMath
         }
 
         //The method is used to hide math coices when the switch for multiplication table is active
-        public void MultiplicationTableActive(object sender, EventArgs e)
+        private void MultiplicationTableActive(object sender, EventArgs e)
         {
             VerticalStackLayout checkBoxes = (VerticalStackLayout)FindByName("checkBoxes");
             if (checkBoxes.IsVisible == true)

@@ -8,7 +8,7 @@ namespace TimedMath
     public partial class MainPage : ContentPage
     {
         //Method for filepath
-        public static string FileLocation()
+        private static string FileLocation()
         {
             string fileName = System.IO.Path.Combine(FileSystem.Current.AppDataDirectory, "highScore.json");
             return fileName;
@@ -125,7 +125,7 @@ namespace TimedMath
             LoadHighScore();
         }
 
-        //method writes high score to file when submit is clicked.
+        //method writes high score to file when submit is clicked or enter is pressed when writing name.
         private void SubmitAnswerClicked(object sender, EventArgs e)
         {
 

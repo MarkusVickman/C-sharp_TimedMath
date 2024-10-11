@@ -6,7 +6,7 @@ namespace TimedMath
     {
 
         //Method that returns a string array with math method choosen.
-        public string[] CheckMathMethod()
+        private string[] CheckMathMethod()
         {
             //Declares variables for the boxes that needs to be "checked"
             VerticalStackLayout checkBoes = (VerticalStackLayout)FindByName("checkBoxes");
@@ -48,7 +48,7 @@ namespace TimedMath
         }
 
         //method to change number to solve
-        public void ChangeLabel()
+        private void ChangeLabel()
         {
             var random = new Random();
 

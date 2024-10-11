@@ -5,11 +5,11 @@ namespace TimedMath
     public partial class MainPage : ContentPage
     {
         //Bool variables to know if startbutton is pressed and if the timer for it har started
-        public bool checkIfPressed = false;
-        public bool checkIfTimerStarted = false;
+        private bool checkIfPressed = false;
+        private bool checkIfTimerStarted = false;
 
         //Method to start the math questions
-        public async void OnStartClicked(object sender, EventArgs e)
+        private async void OnStartClicked(object sender, EventArgs e)
         {
             //Declares all XAML elements used in this method
             Button skipBtn = (Button)FindByName("SkipBtn");
@@ -104,7 +104,7 @@ namespace TimedMath
         }
 
         //method to write time left to start button
-        public async void StartButtonTimer()
+        private async void StartButtonTimer()
         {
             //First sets the start time when the questions started
             DateTime startTime = DateTime.Now;
