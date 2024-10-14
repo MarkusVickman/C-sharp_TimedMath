@@ -6,14 +6,14 @@
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   IgnorableNamespaces="uap rescap">
 
-  <Identity Name="DevCrafter.641426713E080" Publisher="CN=61D8AA64-E7F6-45C6-BB5B-E55F18AFC5D9" Version="1.1.5.0" />
+  <Identity Name="DevCrafter.641426713E080" Publisher="CN=61D8AA64-E7F6-45C6-BB5B-E55F18AFC5D9" Version="1.2.1.0" />
 
   <mp:PhoneIdentity PhoneProductId="e5b55e7c-6020-4c1e-832e-d7c8882fd363" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>TimedMath</DisplayName>
     <PublisherDisplayName>DevCrafter</PublisherDisplayName>
-    <Logo>$placeholder$.png</Logo>
+    <Logo>Resources\AppIcon\package.png</Logo>
   </Properties>
 
   <Dependencies>
@@ -26,21 +26,17 @@
   </Resources>
 
   <Applications>
-    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Windows.PartialTrustApplication">  <!--Executable="$targetnametoken$.exe" EntryPoint="$targetentrypoint$" EntryPoint="Windows.PartialTrustApplication"-->
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Windows.PartialTrustApplication">
       <uap:VisualElements
         DisplayName="TimedMath"
-        Description="$placeholder$"
-        Square150x150Logo="$placeholder$.png"
-        Square44x44Logo="$placeholder$.png"
+        Description="Solve easy math questions to make you och your child faster at math. For each right answer you get 1 point to your high score.
+The application needs .NET installed."
+        Square150x150Logo="Resources\AppIcon\medium.png"
+        Square44x44Logo="Resources\AppIcon\app.png"
         BackgroundColor="transparent">
-        <uap:DefaultTile Square71x71Logo="$placeholder$.png" Wide310x150Logo="$placeholder$.png" Square310x310Logo="$placeholder$.png" />
-        <uap:SplashScreen Image="$placeholder$.png" />
+        <uap:DefaultTile Square71x71Logo="small.png" Wide310x150Logo="wide.png" Square310x310Logo="large.png" />
+        <uap:SplashScreen Image="Resources\AppIcon\splash.png" />
       </uap:VisualElements>
     </Application>
   </Applications>
-<!--
-  <Capabilities>
-    <rescap:Capability Name="runPartialTrust" /> 
-  </Capabilities>-->
-
 </Package>
