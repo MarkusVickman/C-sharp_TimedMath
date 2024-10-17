@@ -8,37 +8,30 @@ namespace TimedMath
         //Method that returns a string array with math method choosen.
         private string[] CheckMathMethod()
         {
-            //Declares variables for the boxes that needs to be "checked"
-            VerticalStackLayout checkBoes = (VerticalStackLayout)FindByName("checkBoxes");
-            CheckBox plus = (CheckBox)FindByName("plusCheckbox");
-            CheckBox minus = (CheckBox)FindByName("minusCheckbox");
-            CheckBox divided = (CheckBox)FindByName("dividedCheckbox");
-            CheckBox multiply = (CheckBox)FindByName("multiplyCheckbox");
-
             //string array to store calculation methods
             string[] method = { };
 
             //Multiple if statments to check which boxes are checked, adds one to array length and adds them to an array
-            if (minus.IsChecked == true)
+            if (minusCheckbox.IsChecked == true)
             {
                 Array.Resize(ref method, method.Length + 1);
 
                 method[method.Length - 1] = "-";
             }
-            if (divided.IsChecked == true)
+            if (dividedCheckbox.IsChecked == true)
             {
                 Array.Resize(ref method, method.Length + 1);
 
                 method[method.Length - 1] = "/";
             }
-            if (multiply.IsChecked == true)
+            if (multiplyCheckbox.IsChecked == true)
             {
                 Array.Resize(ref method, method.Length + 1);
 
                 method[method.Length - 1] = "*";
             }
             //This one is special. if plus or no one is checked plus will be added. That is for the program to always have a calculation method to work with
-            else if (plus.IsChecked || (!minus.IsChecked && !divided.IsChecked && !multiply.IsChecked))
+            else if (plusCheckbox.IsChecked || (!minusCheckbox.IsChecked && !dividedCheckbox.IsChecked && !multiplyCheckbox.IsChecked))
             {
                 Array.Resize(ref method, method.Length + 1);
 
@@ -50,9 +43,10 @@ namespace TimedMath
         //method to change number to solve
         private void ChangeLabel()
         {
-            var random = new Random();
+            //resets entry field for the users answer
+            entry.Text = "";
 
-            Switch switchMultiTable = (Switch)FindByName("switchMultiTable");
+            var random = new Random();
 
             //if the swith to calculate multiplication table is not active
             if (!switchMultiTable.IsToggled)
@@ -137,9 +131,8 @@ namespace TimedMath
                 }
 
                 //writes the math question to screen
-                string retVal = $"{num1} {calc} {num2} = ?";
-                Label ansLabel = (Label)FindByName("question");
-                ansLabel.Text = retVal;
+                string questionToScreen = $"{num1} {calc} {num2} = ?";
+                question.Text = questionToScreen;
             }
             //if the swith to calculate multiplication table is active only myltiplay numbers between 0 and 10 is used
             else
@@ -151,9 +144,8 @@ namespace TimedMath
                 answer = (num1 * num2).ToString();
 
                 //writes the math question to screen
-                string retVal = $"{num1} * {num2} = ?";
-                Label ansLabel = (Label)FindByName("question");
-                ansLabel.Text = retVal;
+                string questionToScreen = $"{num1} * {num2} = ?";
+                question.Text = questionToScreen;
             }
         }
     }

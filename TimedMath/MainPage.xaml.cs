@@ -40,20 +40,23 @@ namespace TimedMath
         //Method to check if input is the right answer for the math question. initiates from xaml entry field
         private void OnEntryTextChanged(object sender, TextChangedEventArgs e)
         {
-            string text = ((Entry)sender).Text;
             // If the answer matches the right answer and if the test is running (checkIfPressed) 
-            if (text == answer && checkIfPressed)
+            if (((Entry)sender).Text == answer && checkIfPressed)
             {
                 //adds one point and initiate a method to change numbers to calculate then sets entryfield to an empty string
                 totalPoints++;
                 ChangeLabel();
                 ((Entry)sender).Text = "";
+
+                //skriver ut poäng till skärmen för varje rätt
+                highScore.Text = totalPoints.ToString() + " P";
             }
         }
 
         //When skip button is clicked a method to change numbers to calculate is initiated
         private void OnSkipClicked(object sender, EventArgs e)
         {
+            //Checks if start still is active
             if (checkIfPressed)
             {
                 ChangeLabel();
@@ -63,7 +66,7 @@ namespace TimedMath
         //The method is used to hide math coices when the switch for multiplication table is active
         private void MultiplicationTableActive(object sender, EventArgs e)
         {
-            VerticalStackLayout checkBoxes = (VerticalStackLayout)FindByName("checkBoxes");
+            //changes visibility of a stacklayout of checkboxes and changes visibility
             if (checkBoxes.IsVisible == true)
             {
                 checkBoxes.IsVisible = false;

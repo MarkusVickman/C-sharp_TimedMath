@@ -8,28 +8,21 @@ namespace TimedMath
         private bool checkIfPressed = false;
         private bool checkIfTimerStarted = false;
 
+        private CancellationTokenSource cts;
+
         //Method to start the math questions
         private async void OnStartClicked(object sender, EventArgs e)
         {
-            //Declares all XAML elements used in this method
-            Button skipBtn = (Button)FindByName("SkipBtn");
-            Entry entry = (Entry)FindByName("entry");
-            Label ansLabel = (Label)FindByName("question");
-            Entry enterName = (Entry)FindByName("enterName");
-            Button submitName = (Button)FindByName("EnterNameBtn");
-            Switch withoutTimeLimit = (Switch)FindByName("checkTimeLimit");
-            VerticalStackLayout mathCoices = (VerticalStackLayout)FindByName("coices");
-
             //If start button is not pressed the math question starts
             if (!checkIfPressed)
             {
                 //Shows and hides elements for what is needed in the "RUN" state
-                mathCoices.IsVisible = false;
-                skipBtn.IsVisible = true;
+                coices.IsVisible = false;
+                SkipBtn.IsVisible = true;
                 entry.IsVisible = true;
                 question.IsVisible = true;
                 enterName.IsVisible = false;
-                submitName.IsVisible = false;
+                EnterNameBtn.IsVisible = false;
 
                 //Resets total points
                 totalPoints = 0;
@@ -38,15 +31,15 @@ namespace TimedMath
             }
 
             //checks if the player has choosen to not have timer
-            if (!withoutTimeLimit.IsToggled)
-            {
-                // Create a CancellationTokenSource
-                CancellationTokenSource cts = new CancellationTokenSource();
-                CancellationToken ct = cts.Token;
-
+            if (!checkTimeLimit.IsToggled)
+            {            
                 //If start button is not pressed the math question starts
                 if (!checkIfPressed)
                 {
+                    // Create a CancellationTokenSource
+                    cts = new CancellationTokenSource();
+                    CancellationToken ct = cts.Token;
+
                     //now that the start button is press it checkes to true
                     checkIfPressed = true;
 
@@ -54,52 +47,66 @@ namespace TimedMath
                     ChangeLabel();
                     StartButtonTimer();
 
-                    //Sets how long time the user have to solve math questions.! needs to be changed is StartButtonTimer() also! 
-                    await Task.Delay(120000, ct);
+                    //the delay is asyncronus so it only stops this thread. Sets how long time the user have to solve math questions.! needs to be changed is StartButtonTimer() also! 
+                    try
+                    {
+                        await Task.Delay(120000, ct);
+                    }
+                    //Try catch is used to be able to stop the delay if stop is pressed.
+                    catch (TaskCanceledException)
+                    {
+                    }
+                    StopRunningQuestions(true);
                 }
-
-                //changes start button text and writes totals points to screen
-                StartBtn.Text = "Start";
-                ansLabel.Text = "Total points: " + totalPoints;
-
-                //sets so the start button in not recognized as pressed
-                checkIfPressed = false;
-
-                //Shows and hides elements for what is needed in the "STOP" state
-                enterName.IsVisible = true;
-                submitName.IsVisible = true;
-                skipBtn.IsVisible = false;
-                entry.IsVisible = false;
-                mathCoices.IsVisible = true;
-
-                //Cancels the delay timer so the app wont bug if stopped and restarted before 120 seconds.
-                cts.Cancel();
+                //If stop button is pressed the delay is canceled and a stopp method is starting.
+                else
+                {
+                    cts?.Cancel();
+                    StopRunningQuestions(true);
+                }
             }
 
-            //if the user choose to play without timer
-            if (withoutTimeLimit.IsToggled)
+            //if the user choose to play without timer. if and else to start and stop the math questions.
+            if (checkTimeLimit.IsToggled)
             {
-                //If start is now already pressed, the math questions starts in the method ChangeLabel()
+                //If start is not already pressed, the math questions starts in the method ChangeLabel()
                 if (!checkIfPressed)
                 {
                     //now that the start button is press it checkes to true
                     checkIfPressed = true;
                     ChangeLabel();
-                }
+                }              
                 else
                 {
-                    //sets so the start button in not recognized as pressed
-                    checkIfPressed = false;
-
-                    //changes start button text and writes totals points to screen
-                    StartBtn.Text = "Start";
-                    ansLabel.Text = "Total points: " + totalPoints;
-
-                    //Shows and hides elements for what is needed in the "STOP" state
-                    skipBtn.IsVisible = false;
-                    entry.IsVisible = false;
-                    mathCoices.IsVisible = true;
+                    StopRunningQuestions(false);
                 }
+            }
+        }
+
+        //Method to stop the math questions
+        private void StopRunningQuestions(bool timedRun)
+        {
+            //reset text field for highscore
+            highScore.Text = $"HighScore\n";
+            LoadHighScore();
+
+            //changes start button text and writes totals points to screen
+            StartBtn.Text = "Start";
+            question.Text = "Total points: " + totalPoints;
+
+            //sets so the start button in not recognized as pressed
+            checkIfPressed = false;
+
+            //Shows and hides elements for what is needed in the "STOP" state                    
+            SkipBtn.IsVisible = false;
+            entry.IsVisible = false;
+            coices.IsVisible = true;
+
+            //if it was a timed run then the user gets shown the submit options
+            if (timedRun)
+            {
+                EnterNameBtn.IsVisible = true;
+                enterName.IsVisible = true;
             }
         }
 
@@ -112,7 +119,7 @@ namespace TimedMath
             //Only runs as long as the startbutton is mark as true.
             while (checkIfPressed)
             {
-                //a seconds delay. 
+                //one seconds delay. 
                 await Task.Delay(1000);
 
                 //stops if the math questions has stoped
@@ -128,8 +135,7 @@ namespace TimedMath
                 int secondsRemaining = (int)(120 - elapsedTime.TotalSeconds);
 
                 //Writes text and seconds remaining to start button.
-                Button startBtn = (Button)FindByName("StartBtn");
-                startBtn.Text = $"Stop - {secondsRemaining}";
+                StartBtn.Text = $"Stop - {secondsRemaining}";
             }
         }
         }

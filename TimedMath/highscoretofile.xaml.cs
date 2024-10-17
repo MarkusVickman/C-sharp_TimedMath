@@ -32,7 +32,6 @@ namespace TimedMath
                 //Counter used to index high score data
                 int counter = 0;
 
-                Label highScore = (Label)FindByName("highScore");
                 //Resets textfield
                 highScore.Text = "";
 
@@ -45,13 +44,13 @@ namespace TimedMath
                 //Tries to read lines of json and convert it to player objects. 
                 try
                 {
-                    //Alla rader i filen skrivs ut en efter en
+                    //write every line from the file, one by one
                     foreach (var line in File.ReadAllLines(FileLocation()))
                     {
-                        //Check så att inga tomma rader tas med (har dock begränsat det i metoden för skriva nya inlägg)
+                        //checks so no empty lines is used. (should not exist anyway)
                         if (line.Length > 0)
                         {
-                            //Varje rad deserializeras och objekt görs i Guest konstruktorn lägg till felhantering
+                            //Every line is deserialized and objects are created in the Guest constructor
                             MainPage.Player player = JsonSerializer.Deserialize<Player>(line)!;
 
                             //Index counter
@@ -128,23 +127,17 @@ namespace TimedMath
         //method writes high score to file when submit is clicked or enter is pressed when writing name.
         private void SubmitAnswerClicked(object sender, EventArgs e)
         {
-
-            Entry userName = (Entry)FindByName("enterName");
-            string user = userName.Text;
-
             //Needs atlease one character
-            if (!string.IsNullOrWhiteSpace(user))
+            if (!string.IsNullOrWhiteSpace(enterName.Text))
             {
                 //Creates a new player object from total points and user input name. The player object is Json serialized and written to file
-                MainPage.Player player = new Player(totalPoints, user);
+                MainPage.Player player = new Player(totalPoints, enterName.Text);
                 string player2 = JsonSerializer.Serialize(player);
                 File.AppendAllText(FileLocation(), player2 + Environment.NewLine);
 
                 //Hides submit button and text field
-                Entry enterName = (Entry)FindByName("enterName");
-                Button submitName = (Button)FindByName("EnterNameBtn");
                 enterName.IsVisible = false;
-                submitName.IsVisible = false;
+                EnterNameBtn.IsVisible = false;
 
                 //Initiate method to sort high score
                 SortHighScore();
