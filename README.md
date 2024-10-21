@@ -15,7 +15,7 @@ Det här repot innehåller koden till en .NET MAUI applikation för Windows och 
 * Använder Delay och TimedSpan
 * Sorterar high score
 * Try och Catch för felhantering
-* Klasser och metoder
+* Klasser, objekt och metoder
 * Cancellation Token
 
   ###
