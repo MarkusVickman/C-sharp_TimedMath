@@ -33,7 +33,7 @@ namespace TimedMath
                 method[method.Length - 1] = "*";
             }
             //This one is special. if plus or no one is checked plus will be added. That is for the program to always have a calculation method to work with
-            else if (plusCheckbox.IsChecked || (!minusCheckbox.IsChecked && !dividedCheckbox.IsChecked && !multiplyCheckbox.IsChecked))
+            if (plusCheckbox.IsChecked || (!minusCheckbox.IsChecked && !dividedCheckbox.IsChecked && !multiplyCheckbox.IsChecked))
             {
                 Array.Resize(ref method, method.Length + 1);
 
@@ -85,12 +85,12 @@ namespace TimedMath
 
             var random = new Random();
 
+            //Reads string with a randomized calculation method from the selected ones
+            string calc = CheckMathMethod();
+
             //if the swith to calculate multiplication table is not active
             if (!switchMultiTable.IsToggled)
             {
-                //Reads string with a randomized calculation method from the selected ones
-                string calc = CheckMathMethod();
-
                 //set the max random number from the method
                 int maxRandomNumb = MaxRandomNumber();
 
@@ -135,20 +135,12 @@ namespace TimedMath
                     }
                     answer = (num1 / num2).ToString();
                 }
-                //Multiply is always the same so the numbers don't gets to big.
-                else if (calc == "*")
-                {
-                    num1 = random.Next(11);
-                    num2 = random.Next(11);
-                    answer = (num1 * num2).ToString();
-                }
-
                 //writes the math question to screen
                 string questionToScreen = $"{num1} {calc} {num2} = ?";
                 question.Text = questionToScreen;
             }
-            //if the swith to calculate multiplication table is active only myltiplay numbers between 0 and 10 is used
-            else
+            //if the swith to calculate multiplication table is active only multiply numbers between 0 and 10 is used. Multiply is always the same so the numbers don't gets to big.
+            if (calc == "*" || switchMultiTable.IsToggled)
             {
                 int num1 = random.Next(11);
                 int num2 = random.Next(11);
