@@ -10,7 +10,7 @@ namespace TimedMath
     public partial class MainPage : ContentPage
     {
         //sting that stores the right answer, the string is replaced with every new number to calculate 
-        private string answer;
+        private string ?answer;
         //integer that gets +1 for every right answer
         private int totalPoints;
 
@@ -53,7 +53,7 @@ namespace TimedMath
             }
         }
 
-        //When skip button is clicked a method to change numbers to calculate is initiated
+        //When skip button is clicked a method to change numbers to calculate is initiated. Could be removed and only use ChangeLabel instead.
         private void OnSkipClicked(object sender, EventArgs e)
         {
             //Checks if start still is active

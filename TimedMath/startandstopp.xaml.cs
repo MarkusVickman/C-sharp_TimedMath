@@ -6,9 +6,7 @@ namespace TimedMath
     {
         //Bool variables to know if startbutton is pressed and if the timer for it har started
         private bool checkIfPressed = false;
-        private bool checkIfTimerStarted = false;
-
-        private CancellationTokenSource cts;
+        private CancellationTokenSource ?cts;
 
         //Method to start the math questions
         private async void OnStartClicked(object sender, EventArgs e)

@@ -1,4 +1,6 @@
 ﻿//Application TimedMath is all located in namespace TimedMath
+using System;
+
 namespace TimedMath
 {
     //The application uses only one page. This partial class is also used by MainPage.xaml.cs highscoretofile.xaml.cs startandstopp.xaml.cs
@@ -6,7 +8,7 @@ namespace TimedMath
     {
 
         //Method that returns a string array with math method choosen.
-        private string[] CheckMathMethod()
+        private string CheckMathMethod()
         {
             //string array to store calculation methods
             string[] method = { };
@@ -37,7 +39,42 @@ namespace TimedMath
 
                 method[method.Length - 1] = "+";
             }
-            return method;
+
+            //when a new number is to be displayed on the screen a random calculation method is selected from the choosen methods 
+            var random = new Random();
+            int calcMethod = random.Next(method.Length);
+            string calc = method[calcMethod];
+
+            return calc;
+        }
+
+        //Method to return max random number size based on points
+        private int MaxRandomNumber()
+        {
+            //The if and if else statments below is to increase the difficulty based on total points accumulated.
+            int maxRandomNumb = 7;
+            if (totalPoints > 15 && totalPoints < 20)
+            {
+                maxRandomNumb = 11;
+            }
+            else if (totalPoints > 20 && totalPoints < 25)
+            {
+                maxRandomNumb = 16;
+            }
+            else if (totalPoints > 25 && totalPoints < 30)
+            {
+                maxRandomNumb = 31;
+            }
+            else if (totalPoints > 30 && totalPoints < 40)
+            {
+                maxRandomNumb = 51;
+            }
+            else if (totalPoints > 40)
+            {
+                maxRandomNumb = 101;
+            }
+
+            return maxRandomNumb;
         }
 
         //method to change number to solve
@@ -51,39 +88,15 @@ namespace TimedMath
             //if the swith to calculate multiplication table is not active
             if (!switchMultiTable.IsToggled)
             {
-                //Reads string array with calculation methods choosen
-                string[] method = CheckMathMethod();
+                //Reads string with a randomized calculation method from the selected ones
+                string calc = CheckMathMethod();
 
-                //The if and if else statments below is to increase the difficulty based on total points accumulated.
-                int maxRandomNumb = 7;
-                if (totalPoints > 15 && totalPoints < 20)
-                {
-                    maxRandomNumb = 11;
-                }
-                else if (totalPoints > 20 && totalPoints < 25)
-                {
-                    maxRandomNumb = 16;
-                }
-                else if (totalPoints > 25 && totalPoints < 30)
-                {
-                    maxRandomNumb = 31;
-                }
-                else if (totalPoints > 30 && totalPoints < 40)
-                {
-                    maxRandomNumb = 51;
-                }
-                else if (totalPoints > 40)
-                {
-                    maxRandomNumb = 101;
-                }
+                //set the max random number from the method
+                int maxRandomNumb = MaxRandomNumber();
 
                 //Initiad 2 random numbers for the calculation
                 int num1 = random.Next(maxRandomNumb);
                 int num2 = random.Next(maxRandomNumb);
-
-                //when a new number is to be displayed on the screen a random calculation method is selected from the choosen methods 
-                int calcMethod = random.Next(method.Length);
-                string calc = method[calcMethod];
 
                 //if statments to calculate the numbers based on calculation method.
                 if (calc == "+")
